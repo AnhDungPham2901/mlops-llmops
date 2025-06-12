@@ -4,7 +4,7 @@ import numpy as np
 mlflow.set_tracking_uri("http://localhost:5000")
 
 
-experiment_name = "my_second_experiment"
+experiment_name = "my_first_experiment"
 mlflow.create_experiment(experiment_name)
 experiment_id = mlflow.get_experiment_by_name(experiment_name).experiment_id
 
@@ -38,3 +38,6 @@ with open("data/sample.csv", "w") as f:
 
 
 mlflow.log_artifact("data/sample.csv", artifact_path="data")
+
+# End the run
+mlflow.end_run()

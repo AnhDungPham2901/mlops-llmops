@@ -45,8 +45,8 @@ tokenizer = DistilBertTokenizer.from_pretrained(params["model_name"])
 def tokenize(batch):
     return tokenizer(batch["text"], padding="max_length", truncation=True, max_length=params["max_seq_length"])
 
-train_dataset = dataset['train'].shuffle().select(range(20_000)).map(tokenize, batched=True)
-test_dataset = dataset['test'].shuffle().select(range(5_000)).map(tokenize, batched=True)
+train_dataset = dataset['train'].shuffle().select(range(2_000)).map(tokenize, batched=True)
+test_dataset = dataset['test'].shuffle().select(range(500)).map(tokenize, batched=True)
 
 train_dataset.to_parquet("data/train.parquet")
 test_dataset.to_parquet("data/test.parquet")
