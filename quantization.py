@@ -18,7 +18,7 @@ def track_time():
     print(f"Execution time: {end - start} seconds")
 
 
-model = AutoModelForCausalLM.from_pretrained("TheFuzzyScientist/diabloGPT_open-instruct").to("cuda")
+model = AutoModelForCausalLM.from_pretrained("TheFuzzyScientist/diabloGPT_open-instruct")
 tokenizer = AutoTokenizer.from_pretrained("microsoft/DialoGPT-medium", padding_side="left")
 tokenizer.pad_token = tokenizer.eos_token
 
