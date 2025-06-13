@@ -9,7 +9,7 @@ client = mlflow.tracking.MlflowClient() # for using advanced features like searc
 
 
 # Retrive the model from mlflow
-model_name = "agnews_pt_classifier"  # Specify the model name you want to load
+model_name = "agnews_pt_classifier_new"  # Specify the model name you want to load
 model_version = "1"  # Specify the version you want to load
 model_uri = f"models:/{model_name}/{model_version}"
 model = mlflow.pytorch.load_model(model_uri)
@@ -48,10 +48,11 @@ def predict(texts, model, tokenizer):
 
 # Example usage
 predicted_classes = predict(texts, model, tokenizer)
+print("Predicted classes: ", predicted_classes)
 
 # Retrive custom model
 custom_model_name = "agnews-transformer"
-custom_model_version = "1"
+custom_model_version = "3"
 model_version_details = client.get_model_version(custom_model_name, custom_model_version)
 run_id = model_version_details.run_id
 artifact_uri = model_version_details.source
@@ -69,7 +70,7 @@ print("Predicted classes from the custom model: ", custom_predicted_classes)
 
 # Model versioning
 
-mlflow.set_experiment("sequence_classification")
+mlflow.set_experiment("sequence_classification_new")
 
 with mlflow.start_run(run_name="iteration2"):
     mlflow.pytorch.log_model(model, "model")
@@ -77,3 +78,8 @@ with mlflow.start_run(run_name="iteration2"):
 with mlflow.start_run(run_name="iteration3"):
     mlflow.pytorch.log_model(model, "model")
 
+
+# Version management
+model_name = "agnews_pt_classifier_new"
+model_version = client.get_latest_versions(model_name, stages=["None"])[0].version
+print(f"Latest model version: {model_version}")

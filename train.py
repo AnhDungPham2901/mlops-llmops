@@ -18,7 +18,7 @@ params = {
     "batch_size": 16,
     "num_epochs": 1,
     "dataset_name": "ag_news",
-    "task_name": "sequence_classification",
+    "task_name": "sequence_classification_new",
     "log_steps": 100,
     "max_seq_length": 128,
     "output_dir": "models/distilbert-ag-news",
@@ -29,7 +29,7 @@ mlflow.set_tracking_uri("http://localhost:5000")
 mlflow.set_experiment(params["task_name"])
 
 # Start MLFlow run
-mlflow.start_run(run_name=f"{params['model_name']}-{params['dataset_name']}-new")
+mlflow.start_run(run_name=f"{params['model_name']}-{params['dataset_name']}")
 
 
 # Log parameters
@@ -97,11 +97,11 @@ def evaluate_model(model, dataloader):
             true_labels.extend(labels.cpu().numpy())
     
     # calculate metrics
-    accuracy_score = accuracy_score(true_labels, predictions)
+    accuracy = accuracy_score(true_labels, predictions)
     f1 = f1_score(true_labels, predictions, average='weighted')
     precision = precision_score(true_labels, predictions, average='weighted')
     recall = recall_score(true_labels, predictions, average='weighted')
-    return accuracy_score, f1, precision, recall
+    return accuracy, f1, precision, recall
 
 
 # Training loop
@@ -145,7 +145,7 @@ with tqdm(total=params["num_epochs"] * len(train_loader), desc=f"Epoch[1/{params
         }, step=epoch)
 
 # Save the model
-mlflow.pytorch.log_model(model, artifact_path="model")
+mlflow.pytorch.log_model(model, "model")
 
 # Log custom model 
 
