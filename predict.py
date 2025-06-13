@@ -80,6 +80,18 @@ with mlflow.start_run(run_name="iteration3"):
 
 
 # Version management
-model_name = "agnews_pt_classifier_new"
-model_version = client.get_latest_versions(model_name, stages=["None"])[0].version
-print(f"Latest model version: {model_version}")
+model_name = "agnews_pt_classifier"
+model_versions = client.search_model_versions(f"name='{model_name}'")
+
+for model_version in model_versions:
+    print(f"Version: {model_version.version} \nStage: {model_version.current_stage} \nStatus: {model_version.status}")
+
+
+# Transition model stage
+model_name = "agnews_pt_classifier"
+model_version = "1"  # Specify the version you want to transition
+client.transition_model_version_stage(
+    name=model_name,
+    version=model_version,
+    stage="Production"
+)
